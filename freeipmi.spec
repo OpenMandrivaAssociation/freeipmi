@@ -1,7 +1,7 @@
 %define name freeipmi
 %define version 0.4.1
 %define release %mkrel 1
-%define major	0
+%define major	4
 %define libname	%mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
 
@@ -34,6 +34,7 @@ Platform Management Interface (IPMI v1.5) specification.
 Group:		System/Libraries
 License:	GPL
 Summary:	Main library for %{name}
+Provides:	lib%{name} = %{version}-%{release}
 
 %description -n	%{libname}
 This package contains the library needed to run programs dynamically
@@ -66,6 +67,7 @@ host BMC through a rich set of IPMI commands.
 Summary:    FreeIPMI Utilities
 Group:      System/Kernel and hardware
 Requires:   %{name} = %{version}
+Requires(pre,preun):	rpm-helper
 
 %description utils
 FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
@@ -118,7 +120,8 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/*.so.%{major}*
+%{_libdir}/libfreeipmi.so.%{major}*
+%{_libdir}/libipmi*.so.*
  
 %files -n %{develname}
 %defattr(-,root,root)
