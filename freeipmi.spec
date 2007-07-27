@@ -1,8 +1,9 @@
 %define name freeipmi
-%define version 0.3.2
+%define version 0.4.1
 %define release %mkrel 1
 %define major	0
 %define libname	%mklibname %{name} %{major}
+%define develname %mklibname -d %{name}
 
 Name: 		%{name}
 Version: 	%{version}
@@ -38,15 +39,16 @@ Summary:	Main library for %{name}
 This package contains the library needed to run programs dynamically
 linked with %{name}.
 
-%package -n	%{libname}-devel
+%package -n	%{develname}
 Group:		Development/C
 License:	GPL
 Summary:	Headers for developing programs that will use %{name}
 Requires:	%{libname} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
-Obsoletes:  %{name}-devel < %{version}-%{release}
+Obsoletes:	%{name}-devel < %{version}-%{release}
+Obsoletes:	%{libname}-devel
 
-%description -n	%{libname}-devel
+%description -n	%{develname}
 This package contains the headers that programmers will need to develop
 applications which will use %{name}.
 
@@ -116,9 +118,9 @@ rm -rf %{buildroot}
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{major}*
  
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %{_libdir}/*.so
 %{_libdir}/*.a
@@ -165,5 +167,3 @@ rm -rf %{buildroot}
 %{_mandir}/man8/ipmi-locate.8*
 %{_mandir}/man8/ipmipower.8*
 %{_mandir}/man8/rmcpping.8*
-
-
