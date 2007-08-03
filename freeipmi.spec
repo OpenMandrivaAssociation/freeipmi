@@ -1,7 +1,7 @@
 %define name freeipmi
 %define version 0.4.2
 %define release %mkrel 1
-%define major	4
+%define major	0
 %define libname	%mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
 
@@ -78,8 +78,6 @@ FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 %build
 %configure2_5x --localstatedir=%{_var}
 %make
-cd doc
-make pdf-local
 
 %install
 rm -rf %{buildroot}
@@ -111,16 +109,15 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS COPYING ChangeLog* INSTALL NEWS README THANKS TODO
+%doc AUTHORS COPYING ChangeLog* INSTALL NEWS README TODO
 %doc doc/*.pdf doc/examples/*.c
-%{_infodir}/freeipmi.info*
 %{_infodir}/freeipmi-faq.info*
 %dir %{_localstatedir}/%{name}
 %dir %{_localstatedir}/%{name}/ipckey
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/libfreeipmi.so.%{major}*
+%{_libdir}/libfreeipmi.so.*
 %{_libdir}/libipmi*.so.*
  
 %files -n %{develname}
