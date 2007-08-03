@@ -1,7 +1,7 @@
 %define name freeipmi
 %define version 0.4.2
 %define release %mkrel 1
-%define major	0
+%define major	4
 %define libname	%mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
 
@@ -35,6 +35,7 @@ Group:		System/Libraries
 License:	GPL
 Summary:	Main library for %{name}
 Provides:	lib%{name} = %{version}-%{release}
+Obsoletes:	lib%{name} < 0.4.0
 
 %description -n	%{libname}
 This package contains the library needed to run programs dynamically
@@ -78,6 +79,9 @@ FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 %build
 %configure2_5x --localstatedir=%{_var}
 %make
+cd doc
+make pdf
+cd -
 
 %install
 rm -rf %{buildroot}
@@ -110,14 +114,14 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc AUTHORS COPYING ChangeLog* INSTALL NEWS README TODO
-%doc doc/*.pdf doc/examples/*.c
+%doc doc/*.pdf
 %{_infodir}/freeipmi-faq.info*
 %dir %{_localstatedir}/%{name}
 %dir %{_localstatedir}/%{name}/ipckey
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/libfreeipmi.so.*
+%{_libdir}/libfreeipmi.so.%{major}*
 %{_libdir}/libipmi*.so.*
  
 %files -n %{develname}
