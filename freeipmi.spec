@@ -88,6 +88,7 @@ rm -rf %{buildroot}
 %makeinstall_std 
 install -d -m 755 %{buildroot}/%{_initrddir}
 mv %{buildroot}/%{_sysconfdir}/init.d/freeipmi-bmc-watchdog %{buildroot}/%{_initrddir}
+mv %{buildroot}/%{_sysconfdir}/init.d/freeipmi-ipmidetectd %{buildroot}/%{_initrddir}
 rm -rf %{buildroot}%{_docdir}/%{name}
 
 %clean
@@ -153,6 +154,9 @@ rm -rf %{buildroot}
 %doc COPYING.ipmipower DISCLAIMER.ipmipower
 %doc COPYING.rmcpping DISCLAIMER.rmcpping
 %{_initrddir}/%{name}-bmc-watchdog
+%{_initrddir}/%{name}-ipmidetectd
+%config(noreplace) %{_sysconfdir}/ipmi_monitoring_sensors.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/%{name}-bmc-watchdog
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}-bmc-watchdog
 %{_sbindir}/bmc-watchdog
 %{_sbindir}/ipmi-raw
@@ -161,8 +165,19 @@ rm -rf %{buildroot}
 %{_sbindir}/ipmi-locate
 %{_sbindir}/ipmipower
 %{_sbindir}/rmcpping
+%{_sbindir}/ipmi-chassis
+%{_sbindir}/ipmi-fru
+%{_sbindir}/ipmidetect
+%{_sbindir}/ipmidetectd
+%{_sbindir}/ipmimonitoring
+%{_sbindir}/pef-config
+%{_mandir}/man3/libipmiconsole.3*
+%{_mandir}/man3/libipmidetect.3*
+%{_mandir}/man3/libipmimonitoring.3*
 %{_mandir}/man5/ipmipower.conf.5*
 %{_mandir}/man5/ipmiconsole.conf.5*
+%{_mandir}/man5/ipmidetect.conf.5*
+%{_mandir}/man5/ipmidetectd.conf.5*
 %{_mandir}/man8/ipmi-raw.*
 %{_mandir}/man8/bmc-watchdog.8*
 %{_mandir}/man8/bmc-autoconfig.8*
@@ -171,3 +186,9 @@ rm -rf %{buildroot}
 %{_mandir}/man8/ipmi-locate.8*
 %{_mandir}/man8/ipmipower.8*
 %{_mandir}/man8/rmcpping.8*
+%{_mandir}/man8/ipmi-chassis.8*
+%{_mandir}/man8/ipmi-fru.8*
+%{_mandir}/man8/ipmidetect.8*
+%{_mandir}/man8/ipmidetectd.8*
+%{_mandir}/man8/ipmimonitoring.8*
+%{_mandir}/man8/pef-config.8*
