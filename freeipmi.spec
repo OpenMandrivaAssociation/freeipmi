@@ -1,7 +1,7 @@
 %define name freeipmi
-%define version 0.4.6
+%define version 0.5.1
 %define release %mkrel 1
-%define major	4
+%define major	5
 %define libname	%mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
 
@@ -9,7 +9,7 @@ Name: 		%{name}
 Version: 	%{version}
 Release: 	%{release}
 Summary: 	FreeIPMI
-License: 	GPL
+License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
 Source: 	http://ftp.zresearch.com/pub/%name/%version/%{name}-%{version}.tar.gz
@@ -35,7 +35,7 @@ Group:		System/Libraries
 License:	GPL
 Summary:	Main library for %{name}
 Provides:	lib%{name} = %{version}-%{release}
-Obsoletes:	lib%{name} < 0.4.0
+Obsoletes:	lib%{name} < %{version}
 
 %description -n	%{libname}
 This package contains the library needed to run programs dynamically
@@ -134,7 +134,7 @@ rm -rf %{buildroot}
 
 %files fish
 %defattr(-,root,root)
-%{_sbindir}/bmc-autoconfig
+#%{_sbindir}/bmc-autoconfig
 %{_sbindir}/bmc-config
 %{_sbindir}/bmc-info
 %{_sbindir}/ipmi-sel
@@ -144,7 +144,6 @@ rm -rf %{buildroot}
 %{_mandir}/man8/bmc-info.*
 %{_mandir}/man8/ipmi-sel.*
 %{_mandir}/man8/ipmi-sensors.*
-%dir %{_localstatedir}/%{name}/bmc-config-template
 
 %files utils
 %defattr(-,root,root)
@@ -180,7 +179,6 @@ rm -rf %{buildroot}
 %{_mandir}/man5/ipmidetectd.conf.5*
 %{_mandir}/man8/ipmi-raw.*
 %{_mandir}/man8/bmc-watchdog.8*
-%{_mandir}/man8/bmc-autoconfig.8*
 %{_mandir}/man8/ipmiping.8*
 %{_mandir}/man8/ipmiconsole.8*
 %{_mandir}/man8/ipmi-locate.8*
