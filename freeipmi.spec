@@ -23,6 +23,7 @@ BuildRequires:  texinfo
 BuildRequires:  tetex-latex
 # uses sys/io.h style I/O
 ExcludeArch:	ppc
+BuildRoot:	    %{_tmppath}/%{name}-%{version}
 
 %description
 The FreeIPMI project provides "Remote-Console" (out-of-band) and
