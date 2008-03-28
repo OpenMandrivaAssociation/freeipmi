@@ -1,7 +1,7 @@
 %define name freeipmi
-%define version 0.5.5
+%define version 0.5.6
 %define release %mkrel 1
-%define major	5
+%define major	1
 %define libname	%mklibname %{name} %{major}
 %define develname %mklibname -d %{name}
 
