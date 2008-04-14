@@ -1,9 +1,18 @@
 %define name freeipmi
 %define version 0.5.6
-%define release %mkrel 1
-%define major	1
-%define libname	%mklibname %{name} %{major}
+%define release %mkrel 2
+%define freeipmi_major	        5
+%define ipmiconsole_major	    2
+%define ipmidetect_major	    0
+%define ipmimonitoring_major	1
+%define libfreeipmi_name	    %mklibname freeipmi %{freeipmi_major}
+%define libipmiconsole_name	    %mklibname ipmiconsole %{ipmiconsole_major}
+%define libipmidetect_name	    %mklibname ipmidetect %{ipmidetect_major}
+%define libipmimonitoring_name	%mklibname ipmimonitoring %{ipmimonitoring_major}
 %define develname %mklibname -d %{name}
+
+%define old_libname    %mklibname freeipmi 5
+%define old_librelease 0.5.6-%mkrel 2
 
 Name: 		%{name}
 Version: 	%{version}
@@ -30,25 +39,57 @@ The FreeIPMI project provides "Remote-Console" (out-of-band) and
 "System Management Software" (in-band) based on Intelligent
 Platform Management Interface (IPMI v1.5) specification.
 
-%package -n	%{libname}
+%package -n	%{libfreeipmi_name}
 Group:		System/Libraries
 License:	GPL
 Summary:	Main library for %{name}
-Provides:	lib%{name} = %{version}-%{release}
-Obsoletes:	lib%{name} < %{version}
+Obsoletes:	%old_libname < %old_librelease
 
-%description -n	%{libname}
-This package contains the library needed to run programs dynamically
+%description -n	%{libfreeipmi_name}
+This package contains one of the libraries needed to run programs dynamically
+linked with %{name}.
+
+%package -n	%{libipmiconsole_name}
+Group:		System/Libraries
+License:	GPL
+Summary:	Main library for %{name}
+Obsoletes:	%old_libname < %old_librelease
+
+%description -n	%{libipmiconsole_name}
+This package contains one of the libraries needed to run programs dynamically
+linked with %{name}.
+
+%package -n	%{libipmidetect_name}
+Group:		System/Libraries
+License:	GPL
+Summary:	Main library for %{name}
+Obsoletes:	%old_libname < %old_librelease
+
+%description -n	%{libipmidetect_name}
+This package contains one of the libraries needed to run programs dynamically
+linked with %{name}.
+
+%package -n	%{libipmimonitoring_name}
+Group:		System/Libraries
+License:	GPL
+Summary:	Main library for %{name}
+Obsoletes:	%old_libname < %old_librelease
+
+%description -n	%{libipmimonitoring_name}
+This package contains one of the libraries needed to run programs dynamically
 linked with %{name}.
 
 %package -n	%{develname}
 Group:		Development/C
 License:	GPL
 Summary:	Headers for developing programs that will use %{name}
-Requires:	%{libname} = %{version}-%{release}
+Requires:	%{libfreeipmi_name} = %{version}-%{release}
+Requires:	%{libipmimonitoring_name} = %{version}-%{release}
+Requires:	%{libipmiconsole_name} = %{version}-%{release}
+Requires:	%{libipmidetect_name} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{name}-devel < %{version}-%{release}
-Obsoletes:	%{libname}-devel
+Obsoletes:	%{libfreeipmi_name}-devel
 
 %description -n	%{develname}
 This package contains the headers that programmers will need to develop
@@ -108,9 +149,21 @@ rm -rf %{buildroot}
 %_install_info %{name}.info
 %_install_info %{name}-faq.info
 
-%post -n %{libname} -p /sbin/ldconfig
+%post -n %{libfreeipmi_name} -p /sbin/ldconfig
 
-%postun -n %{libname} -p /sbin/ldconfig
+%postun -n %{libfreeipmi_name} -p /sbin/ldconfig
+
+%post -n %{libipmidetect_name} -p /sbin/ldconfig
+
+%postun -n %{libipmidetect_name} -p /sbin/ldconfig
+
+%post -n %{libipmiconsole_name} -p /sbin/ldconfig
+
+%postun -n %{libipmiconsole_name} -p /sbin/ldconfig
+
+%post -n %{libipmimonitoring_name} -p /sbin/ldconfig
+
+%postun -n %{libipmimonitoring_name} -p /sbin/ldconfig
 
 %files
 %defattr(-,root,root)
@@ -120,10 +173,25 @@ rm -rf %{buildroot}
 %dir %{_localstatedir}/%{name}
 %dir %{_localstatedir}/%{name}/ipckey
 
-%files -n %{libname}
+%files -n %{libfreeipmi_name}
 %defattr(-,root,root)
-%{_libdir}/libfreeipmi.so.%{major}*
-%{_libdir}/libipmi*.so.*
+%{_libdir}/libfreeipmi.so.%{freeipmi_major}
+%{_libdir}/libfreeipmi.so.%{freeipmi_major}.*
+
+%files -n %{libipmiconsole_name}
+%defattr(-,root,root)
+%{_libdir}/libipmiconsole.so.%{ipmiconsole_major}
+%{_libdir}/libipmiconsole.so.%{ipmiconsole_major}.*
+
+%files -n %{libipmidetect_name}
+%defattr(-,root,root)
+%{_libdir}/libipmidetect.so.%{ipmidetect_major}
+%{_libdir}/libipmidetect.so.%{ipmidetect_major}.*
+
+%files -n %{libipmimonitoring_name}
+%defattr(-,root,root)
+%{_libdir}/libipmimonitoring.so.%{ipmimonitoring_major}
+%{_libdir}/libipmimonitoring.so.%{ipmimonitoring_major}.*
  
 %files -n %{develname}
 %defattr(-,root,root)
