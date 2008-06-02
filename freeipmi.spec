@@ -170,8 +170,8 @@ rm -rf %{buildroot}
 %doc AUTHORS COPYING ChangeLog* INSTALL NEWS README TODO
 %doc doc/*.pdf
 %{_infodir}/freeipmi-faq.info*
-%dir %{_localstatedir}/%{name}
-%dir %{_localstatedir}/%{name}/ipckey
+%dir %{_localstatedir}/lib/%{name}
+%dir %{_localstatedir}/lib/%{name}/ipckey
 
 %files -n %{libfreeipmi_name}
 %defattr(-,root,root)
