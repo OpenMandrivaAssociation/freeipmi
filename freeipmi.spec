@@ -149,21 +149,37 @@ rm -rf %{buildroot}
 %_install_info %{name}.info
 %_install_info %{name}-faq.info
 
+%if %mdkversion < 200900
 %post -n %{libfreeipmi_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -n %{libfreeipmi_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %post -n %{libipmidetect_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -n %{libipmidetect_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %post -n %{libipmiconsole_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -n %{libipmiconsole_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %post -n %{libipmimonitoring_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -n %{libipmimonitoring_name} -p /sbin/ldconfig
+%endif
 
 %files
 %defattr(-,root,root)
