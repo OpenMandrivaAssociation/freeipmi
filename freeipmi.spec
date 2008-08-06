@@ -1,6 +1,6 @@
 %define name freeipmi
 %define version 0.5.6
-%define release %mkrel 2
+%define release %mkrel 3
 %define freeipmi_major	        5
 %define ipmiconsole_major	    2
 %define ipmidetect_major	    0
@@ -12,7 +12,7 @@
 %define develname %mklibname -d %{name}
 
 %define old_libname    %mklibname freeipmi 5
-%define old_librelease 0.5.6-%mkrel 2
+%define old_librelease 0.5.6-%mkrel 3
 
 Name: 		%{name}
 Version: 	%{version}
