@@ -1,6 +1,6 @@
 %define name freeipmi
 %define version 0.7.12
-%define release %mkrel 1
+%define release %mkrel 2
 %define freeipmi_major	        6
 %define ipmiconsole_major	    2
 %define ipmidetect_major	    0
@@ -33,7 +33,7 @@ BuildRequires:  ghostscript
 BuildRequires:  texinfo
 BuildRequires:  tetex-latex
 # uses sys/io.h style I/O
-ExcludeArch:	ppc
+ExcludeArch:	ppc %mips
 BuildRoot:	    %{_tmppath}/%{name}-%{version}
 
 %description
