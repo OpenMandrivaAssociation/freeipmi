@@ -1,6 +1,6 @@
 %define name freeipmi
 %define version 0.7.13
-%define release %mkrel 1
+%define release %mkrel 2
 %define freeipmi_major	        6
 %define ipmiconsole_major	    2
 %define ipmidetect_major	    0
@@ -132,7 +132,7 @@ cd -
 rm -rf %{buildroot}
 %makeinstall_std 
 install -d -m 755 %{buildroot}/%{_initrddir}
-mv %{buildroot}/%{_sysconfdir}/init.d/freeipmi-bmc-watchdog %{buildroot}/%{_initrddir}
+mv %{buildroot}/%{_sysconfdir}/init.d/freeipmi-bmc-watchdog %{buildroot}/%{_initrddir}/%{name}-bmcwatchdog
 mv %{buildroot}/%{_sysconfdir}/init.d/freeipmi-ipmidetectd %{buildroot}/%{_initrddir}
 rm -rf %{buildroot}%{_docdir}/%{name}
 
@@ -140,10 +140,10 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 rm -rf %{buildroot}
 
 %post utils
-%_post_service freeipmi-bmc-watchdog
+%_post_service freeipmi-bmcwatchdog
 
 %preun utils
-%_preun_service freeimpi-bmc-watchdog
+%_preun_service freeimpi-bmcwatchdog
 
 %preun
 %_remove_install_info %{name}.info
@@ -238,7 +238,7 @@ rm -rf %{buildroot}
 %doc COPYING.ipmiping DISCLAIMER.ipmiping
 %doc COPYING.ipmipower DISCLAIMER.ipmipower
 %doc COPYING.rmcpping DISCLAIMER.rmcpping
-%{_initrddir}/%{name}-bmc-watchdog
+%{_initrddir}/%{name}-bmcwatchdog
 %{_initrddir}/%{name}-ipmidetectd
 %config(noreplace) %{_sysconfdir}/ipmi_monitoring_sensors.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}-bmc-watchdog
