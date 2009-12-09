@@ -1,10 +1,10 @@
 %define name freeipmi
-%define version 0.7.16
+%define version 0.8.1
 %define release %mkrel 1
-%define freeipmi_major	        6
+%define freeipmi_major	        10
 %define ipmiconsole_major	    2
 %define ipmidetect_major	    0
-%define ipmimonitoring_major	1
+%define ipmimonitoring_major	4
 %define libfreeipmi_name	    %mklibname freeipmi %{freeipmi_major}
 %define libipmiconsole_name	    %mklibname ipmiconsole %{ipmiconsole_major}
 %define libipmidetect_name	    %mklibname ipmidetect %{ipmidetect_major}
@@ -22,8 +22,7 @@ License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
 Source: 	http://ftp.zresearch.com/pub/%name/%version/%{name}-%{version}.tar.gz
-Patch0:		freeipmi-0.7.6-fix-str-fmt.patch
-Patch1:		freeipmi-0.6.4-argmax.patch
+Patch0:		freeipmi-0.8.1-fix-str-fmt.patch
 BuildRequires:	libguile-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  readline-devel
@@ -119,10 +118,9 @@ FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p1 -b .argmax
 
 %build
-%configure2_5x --localstatedir=%{_var}
+%configure2_5x --localstatedir=/%{_var}
 %make
 cd doc
 make pdf
@@ -132,18 +130,18 @@ cd -
 rm -rf %{buildroot}
 %makeinstall_std 
 install -d -m 755 %{buildroot}/%{_initrddir}
-mv %{buildroot}/%{_sysconfdir}/init.d/freeipmi-bmc-watchdog %{buildroot}/%{_initrddir}/%{name}-bmcwatchdog
-mv %{buildroot}/%{_sysconfdir}/init.d/freeipmi-ipmidetectd %{buildroot}/%{_initrddir}
+mv %{buildroot}/%{_sysconfdir}/init.d/bmc-watchdog %{buildroot}/%{_initrddir}/bmcwatchdog
+mv %{buildroot}/%{_sysconfdir}/init.d/ipmidetectd %{buildroot}/%{_initrddir}
 rm -rf %{buildroot}%{_docdir}/%{name}
 
 %clean
 rm -rf %{buildroot}
 
 %post utils
-%_post_service freeipmi-bmcwatchdog
+%_post_service bmcwatchdog
 
 %preun utils
-%_preun_service freeimpi-bmcwatchdog
+%_preun_service bmcwatchdog
 
 %preun
 %_remove_install_info %{name}.info
@@ -238,11 +236,11 @@ rm -rf %{buildroot}
 %doc COPYING.ipmiping DISCLAIMER.ipmiping
 %doc COPYING.ipmipower DISCLAIMER.ipmipower
 %doc COPYING.rmcpping DISCLAIMER.rmcpping
-%{_initrddir}/%{name}-bmcwatchdog
-%{_initrddir}/%{name}-ipmidetectd
+%{_initrddir}/bmcwatchdog
+%{_initrddir}/ipmidetectd
 %config(noreplace) %{_sysconfdir}/ipmi_monitoring_sensors.conf
-%config(noreplace) %{_sysconfdir}/sysconfig/%{name}-bmc-watchdog
-%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}-bmc-watchdog
+%config(noreplace) %{_sysconfdir}/sysconfig/bmc-watchdog
+%config(noreplace) %{_sysconfdir}/logrotate.d/bmc-watchdog
 %{_sbindir}/bmc-watchdog
 %{_sbindir}/bmc-device
 %{_sbindir}/ipmi-raw
@@ -258,7 +256,9 @@ rm -rf %{buildroot}
 %{_sbindir}/ipmidetect
 %{_sbindir}/ipmidetectd
 %{_sbindir}/ipmimonitoring
+%{_sbindir}/ipmi-dcmi
 %{_sbindir}/pef-config
+%{_sbindir}/ipmi-pef-config
 %{_mandir}/man3/libipmiconsole.3*
 %{_mandir}/man3/libipmidetect.3*
 %{_mandir}/man3/libipmimonitoring.3*
@@ -289,3 +289,5 @@ rm -rf %{buildroot}
 %{_mandir}/man8/ipmidetectd.8*
 %{_mandir}/man8/ipmimonitoring.8*
 %{_mandir}/man8/pef-config.8*
+%{_mandir}/man8/ipmi-dcmi.8.*
+%{_mandir}/man8/ipmi-pef-config.8.*
