@@ -1,10 +1,10 @@
 %define name freeipmi
-%define version 0.8.12
+%define version 1.0.1
 %define release %mkrel 1
 %define freeipmi_major	        10
 %define ipmiconsole_major	    2
 %define ipmidetect_major	    0
-%define ipmimonitoring_major	4
+%define ipmimonitoring_major	5
 %define libfreeipmi_name	    %mklibname freeipmi %{freeipmi_major}
 %define libipmiconsole_name	    %mklibname ipmiconsole %{ipmiconsole_major}
 %define libipmidetect_name	    %mklibname ipmidetect %{ipmidetect_major}
@@ -12,7 +12,7 @@
 %define develname %mklibname -d %{name}
 
 %define old_libname    %mklibname freeipmi 5
-%define old_librelease 0.6.5-%mkrel 1
+%define old_librelease 0.6.5-1
 
 Name: 		%{name}
 Version: 	%{version}
@@ -22,7 +22,7 @@ License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
 Source: 	http://ftp.zresearch.com/pub/%name/%version/%{name}-%{version}.tar.gz
-Patch0:		freeipmi-0.8.1-fix-str-fmt.patch
+Patch0:		freeipmi-1.0.1-fix-str-fmt.patch
 BuildRequires:	libguile-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  readline-devel
@@ -116,15 +116,17 @@ Requires(pre,preun):	rpm-helper
 FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 
 %prep
-%setup -q
+%setup -qDT
+%if 0
 %patch0 -p0
 
 %build
-%configure2_5x --localstatedir=/%{_var}
-%make
+%configure2_5x --localstatedir=/%{_var} --disable-dependency-tracking
+%make 
 cd doc
 make pdf
 cd -
+%endif
 
 %install
 rm -rf %{buildroot}
@@ -187,7 +189,10 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc AUTHORS COPYING ChangeLog* INSTALL NEWS README TODO
 %doc doc/*.pdf
-%{_sysconfdir}/*.conf
+%{_sysconfdir}/freeipmi/*.conf
+%{_mandir}/man5/freeipmi_interpret_sel.conf.5.*
+%{_mandir}/man5/freeipmi_interpret_sensor.conf.5.*
+%{_mandir}/man5/libipmiconsole.conf.5.*
 %{_infodir}/freeipmi-faq.info*
 %dir %{_localstatedir}/lib/%{name}
 %dir %{_localstatedir}/lib/%{name}/ipckey
@@ -235,59 +240,67 @@ rm -rf %{buildroot}
 %doc COPYING.ipmiconsole DISCLAIMER.ipmiconsole 
 %doc COPYING.ipmiping DISCLAIMER.ipmiping
 %doc COPYING.ipmipower DISCLAIMER.ipmipower
-%doc COPYING.rmcpping DISCLAIMER.rmcpping
+%{_sysconfdir}/logrotate.d/bmc-watchdog
 %{_initrddir}/bmcwatchdog
 %{_initrddir}/ipmidetectd
-%config(noreplace) %{_sysconfdir}/ipmi_monitoring_sensors.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/bmc-watchdog
-%config(noreplace) %{_sysconfdir}/logrotate.d/bmc-watchdog
-%{_sbindir}/bmc-watchdog
 %{_sbindir}/bmc-device
-%{_sbindir}/ipmi-raw
-%{_sbindir}/ipmi-oem
-%{_sbindir}/ipmiping
-%{_sbindir}/ipmiconsole
-%{_sbindir}/ipmi-locate
-%{_sbindir}/ipmipower
-%{_sbindir}/rmcpping
+%{_sbindir}/bmc-watchdog
 %{_sbindir}/ipmi-chassis
 %{_sbindir}/ipmi-chassis-config
+%{_sbindir}/ipmi-console
+%{_sbindir}/ipmi-dcmi
+%{_sbindir}/ipmi-detect
 %{_sbindir}/ipmi-fru
+%{_sbindir}/ipmi-locate
+%{_sbindir}/ipmi-oem
+%{_sbindir}/ipmi-pef-config
+%{_sbindir}/ipmi-ping
+%{_sbindir}/ipmi-power
+%{_sbindir}/ipmi-raw
+%{_sbindir}/ipmiconsole
 %{_sbindir}/ipmidetect
 %{_sbindir}/ipmidetectd
 %{_sbindir}/ipmimonitoring
-%{_sbindir}/ipmi-dcmi
+%{_sbindir}/ipmiping
+%{_sbindir}/ipmipower
 %{_sbindir}/pef-config
-%{_sbindir}/ipmi-pef-config
-%{_mandir}/man3/libipmiconsole.3*
-%{_mandir}/man3/libipmidetect.3*
-%{_mandir}/man3/libipmimonitoring.3*
-%{_mandir}/man3/libfreeipmi.3*
-%{_mandir}/man5/freeipmi.conf.5*
-%{_mandir}/man5/ipmipower.conf.5*
-%{_mandir}/man5/ipmiconsole.conf.5*
-%{_mandir}/man5/ipmidetect.conf.5*
-%{_mandir}/man5/ipmidetectd.conf.5*
-%{_mandir}/man5/ipmi_monitoring_sensors.conf.5*
-%{_mandir}/man5/ipmimonitoring.conf.5*
-%{_mandir}/man5/ipmimonitoring_sensors.conf.5*
-%{_mandir}/man5/libipmimonitoring.conf.5*
-%{_mandir}/man7/freeipmi.7*
-%{_mandir}/man8/ipmi-raw.*
-%{_mandir}/man8/bmc-watchdog.8*
-%{_mandir}/man8/bmc-device.8*
-%{_mandir}/man8/ipmiping.8*
-%{_mandir}/man8/ipmiconsole.8*
-%{_mandir}/man8/ipmi-locate.8*
-%{_mandir}/man8/ipmi-oem.8*
-%{_mandir}/man8/ipmipower.8*
-%{_mandir}/man8/rmcpping.8*
-%{_mandir}/man8/ipmi-chassis.8*
-%{_mandir}/man8/ipmi-chassis-config.8*
-%{_mandir}/man8/ipmi-fru.8*
-%{_mandir}/man8/ipmidetect.8*
-%{_mandir}/man8/ipmidetectd.8*
-%{_mandir}/man8/ipmimonitoring.8*
-%{_mandir}/man8/pef-config.8*
+%{_sbindir}/rmcp-ping
+%{_sbindir}/rmcpping
+%{_mandir}/man3/libfreeipmi.3.*
+%{_mandir}/man3/libipmiconsole.3.*
+%{_mandir}/man3/libipmidetect.3.*
+%{_mandir}/man3/libipmimonitoring.3.*
+%{_mandir}/man5/freeipmi.conf.5.*
+%{_mandir}/man5/ipmi_monitoring_sensors.conf.5.*
+%{_mandir}/man5/ipmiconsole.conf.5.*
+%{_mandir}/man5/ipmidetect.conf.5.*
+%{_mandir}/man5/ipmidetectd.conf.5.*
+%{_mandir}/man5/ipmimonitoring.conf.5.*
+%{_mandir}/man5/ipmimonitoring_sensors.conf.5.*
+%{_mandir}/man5/ipmipower.conf.5.*
+%{_mandir}/man5/libipmimonitoring.conf.5.*
+%{_mandir}/man7/freeipmi.7.*
+%{_mandir}/man8/bmc-device.8.*
+%{_mandir}/man8/bmc-watchdog.8.*
+%{_mandir}/man8/ipmi-chassis-config.8.*
+%{_mandir}/man8/ipmi-chassis.8.*
+%{_mandir}/man8/ipmi-console.8.*
 %{_mandir}/man8/ipmi-dcmi.8.*
+%{_mandir}/man8/ipmi-detect.8.*
+%{_mandir}/man8/ipmi-fru.8.*
+%{_mandir}/man8/ipmi-locate.8.*
+%{_mandir}/man8/ipmi-oem.8.*
 %{_mandir}/man8/ipmi-pef-config.8.*
+%{_mandir}/man8/ipmi-ping.8.*
+%{_mandir}/man8/ipmi-power.8.*
+%{_mandir}/man8/ipmi-raw.8.*
+%{_mandir}/man8/ipmiconsole.8.*
+%{_mandir}/man8/ipmidetect.8.*
+%{_mandir}/man8/ipmidetectd.8.*
+%{_mandir}/man8/ipmimonitoring.8.*
+%{_mandir}/man8/ipmiping.8.*
+%{_mandir}/man8/ipmipower.8.*
+%{_mandir}/man8/pef-config.8.*
+%{_mandir}/man8/rmcp-ping.8.*
+%{_mandir}/man8/rmcpping.8.*
