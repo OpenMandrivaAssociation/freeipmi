@@ -116,8 +116,7 @@ Requires(pre,preun):	rpm-helper
 FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 
 %prep
-%setup -qDT
-%if 0
+%setup -q
 %patch0 -p0
 
 %build
@@ -126,7 +125,6 @@ FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 cd doc
 make pdf
 cd -
-%endif
 
 %install
 rm -rf %{buildroot}
