@@ -1,5 +1,5 @@
 %define name freeipmi
-%define version 1.0.1
+%define version 1.0.2
 %define release %mkrel 1
 %define freeipmi_major	        10
 %define ipmiconsole_major	    2
@@ -21,7 +21,7 @@ Summary: 	FreeIPMI
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
-Source: 	http://ftp.zresearch.com/pub/%name/%version/%{name}-%{version}.tar.gz
+Source: 	http://download.gluster.com/pub/%name/%version/%{name}-%{version}.tar.gz
 Patch0:		freeipmi-1.0.1-fix-str-fmt.patch
 BuildRequires:	libguile-devel
 BuildRequires:  ncurses-devel
