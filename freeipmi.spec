@@ -1,5 +1,5 @@
 %define name freeipmi
-%define version 1.0.4
+%define version 1.0.7
 %define release %mkrel 1
 %define freeipmi_major	        10
 %define ipmiconsole_major	    2
@@ -44,7 +44,7 @@ Platform Management Interface (IPMI v1.5) specification.
 Group:		System/Libraries
 License:	GPL
 Summary:	Main library for %{name}
-Obsoletes:	%old_libname < %old_librelease
+Obsoletes:	%{old_libname} < %{old_librelease}
 
 %description -n	%{libfreeipmi_name}
 This package contains one of the libraries needed to run programs dynamically
@@ -54,7 +54,7 @@ linked with %{name}.
 Group:		System/Libraries
 License:	GPL
 Summary:	Main library for %{name}
-Obsoletes:	%old_libname < %old_librelease
+Obsoletes:	%{old_libname} < %{old_librelease}
 
 %description -n	%{libipmiconsole_name}
 This package contains one of the libraries needed to run programs dynamically
@@ -64,7 +64,7 @@ linked with %{name}.
 Group:		System/Libraries
 License:	GPL
 Summary:	Main library for %{name}
-Obsoletes:	%old_libname < %old_librelease
+Obsoletes:	%{old_libname} < %{old_librelease}
 
 %description -n	%{libipmidetect_name}
 This package contains one of the libraries needed to run programs dynamically
@@ -74,7 +74,7 @@ linked with %{name}.
 Group:		System/Libraries
 License:	GPL
 Summary:	Main library for %{name}
-Obsoletes:	%old_libname < %old_librelease
+Obsoletes:	%{old_libname} < %{old_librelease}
 
 %description -n	%{libipmimonitoring_name}
 This package contains one of the libraries needed to run programs dynamically
@@ -210,13 +210,17 @@ rm -rf %{buildroot}
 %files -n %{libipmimonitoring_name}
 %defattr(-,root,root)
 %{_libdir}/libipmimonitoring.so.%{ipmimonitoring_major}*
- 
+
 %files -n %{develname}
 %defattr(-,root,root)
 %{_libdir}/*.so
 %{_libdir}/*.a
 %{_libdir}/*.la
 %{_includedir}/*
+%{_libdir}/pkgconfig/libfreeipmi.pc
+%{_libdir}/pkgconfig/libipmiconsole.pc
+%{_libdir}/pkgconfig/libipmidetect.pc
+%{_libdir}/pkgconfig/libipmimonitoring.pc
 
 %files fish
 %defattr(-,root,root)
