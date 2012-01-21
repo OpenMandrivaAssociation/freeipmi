@@ -1,7 +1,7 @@
 %define name freeipmi
-%define version 1.0.9
+%define version 1.1.1
 %define release %mkrel 1
-%define freeipmi_major	        10
+%define freeipmi_major	        12
 %define ipmiconsole_major	    2
 %define ipmidetect_major	    0
 %define ipmimonitoring_major	5
@@ -21,7 +21,7 @@ Summary: 	FreeIPMI
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
-Source: 	http://download.gluster.com/pub/%name/%version/%{name}-%{version}.tar.gz
+Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
 Patch0:		freeipmi-1.0.1-fix-str-fmt.patch
 BuildRequires:	libguile-devel
 BuildRequires:  ncurses-devel
@@ -127,15 +127,13 @@ make pdf
 cd -
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std 
+find %{buildroot} -type f -name '*.la' -exec rm -f {} \;
+
 install -d -m 755 %{buildroot}/%{_initrddir}
 mv %{buildroot}/%{_sysconfdir}/init.d/bmc-watchdog %{buildroot}/%{_initrddir}/bmcwatchdog
 mv %{buildroot}/%{_sysconfdir}/init.d/ipmidetectd %{buildroot}/%{_initrddir}
 rm -rf %{buildroot}%{_docdir}/%{name}
-
-%clean
-rm -rf %{buildroot}
 
 %post utils
 %_post_service bmcwatchdog
@@ -151,40 +149,7 @@ rm -rf %{buildroot}
 %_install_info %{name}.info
 %_install_info %{name}-faq.info
 
-%if %mdkversion < 200900
-%post -n %{libfreeipmi_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libfreeipmi_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libipmidetect_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libipmidetect_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libipmiconsole_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libipmiconsole_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%post -n %{libipmimonitoring_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libipmimonitoring_name} -p /sbin/ldconfig
-%endif
-
 %files
-%defattr(-,root,root)
 %doc AUTHORS COPYING ChangeLog* INSTALL NEWS README TODO
 %doc doc/*.pdf
 %{_sysconfdir}/freeipmi/*.conf
@@ -196,26 +161,20 @@ rm -rf %{buildroot}
 %dir %{_localstatedir}/lib/%{name}/ipckey
 
 %files -n %{libfreeipmi_name}
-%defattr(-,root,root)
 %{_libdir}/libfreeipmi.so.%{freeipmi_major}*
 
 %files -n %{libipmiconsole_name}
-%defattr(-,root,root)
 %{_libdir}/libipmiconsole.so.%{ipmiconsole_major}*
 
 %files -n %{libipmidetect_name}
-%defattr(-,root,root)
 %{_libdir}/libipmidetect.so.%{ipmidetect_major}*
 
 %files -n %{libipmimonitoring_name}
-%defattr(-,root,root)
 %{_libdir}/libipmimonitoring.so.%{ipmimonitoring_major}*
 
 %files -n %{develname}
-%defattr(-,root,root)
 %{_libdir}/*.so
 %{_libdir}/*.a
-%{_libdir}/*.la
 %{_includedir}/*
 %{_libdir}/pkgconfig/libfreeipmi.pc
 %{_libdir}/pkgconfig/libipmiconsole.pc
@@ -223,7 +182,6 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libipmimonitoring.pc
 
 %files fish
-%defattr(-,root,root)
 %{_sbindir}/bmc-config
 %{_sbindir}/bmc-info
 %{_sbindir}/ipmi-sel
@@ -237,7 +195,6 @@ rm -rf %{buildroot}
 %{_mandir}/man8/ipmi-sensors-config.8*
 
 %files utils
-%defattr(-,root,root)
 %doc COPYING.bmc-watchdog DISCLAIMER.bmc-watchdog
 %doc COPYING.ipmiconsole DISCLAIMER.ipmiconsole 
 %doc COPYING.ipmiping DISCLAIMER.ipmiping
@@ -256,6 +213,7 @@ rm -rf %{buildroot}
 %{_sbindir}/ipmi-fru
 %{_sbindir}/ipmi-locate
 %{_sbindir}/ipmi-oem
+%{_sbindir}/ipmi-pet
 %{_sbindir}/ipmi-pef-config
 %{_sbindir}/ipmi-ping
 %{_sbindir}/ipmi-power
@@ -293,6 +251,7 @@ rm -rf %{buildroot}
 %{_mandir}/man8/ipmi-fru.8.*
 %{_mandir}/man8/ipmi-locate.8.*
 %{_mandir}/man8/ipmi-oem.8.*
+%{_mandir}/man8/ipmi-pet.8.*
 %{_mandir}/man8/ipmi-pef-config.8.*
 %{_mandir}/man8/ipmi-ping.8.*
 %{_mandir}/man8/ipmi-power.8.*
