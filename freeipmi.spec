@@ -1,5 +1,5 @@
 %define name freeipmi
-%define version 1.1.4
+%define version 1.1.5
 %define release %mkrel 1
 %define freeipmi_major	        12
 %define ipmiconsole_major	    2
@@ -23,7 +23,7 @@ Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
 Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
 Patch0:		freeipmi-1.0.1-fix-str-fmt.patch
-BuildRequires:	libguile-devel
+BuildRequires:	guile-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  readline-devel
 BuildRequires:  libgcrypt-devel
@@ -33,7 +33,6 @@ BuildRequires:  texinfo
 BuildRequires:  tetex-latex
 # uses sys/io.h style I/O
 ExcludeArch:	ppc %mips
-BuildRoot:	    %{_tmppath}/%{name}-%{version}
 
 %description
 The FreeIPMI project provides "Remote-Console" (out-of-band) and
