@@ -1,5 +1,5 @@
 %define name freeipmi
-%define version 1.1.5
+%define version 1.2.1
 %define release %mkrel 1
 %define freeipmi_major	        12
 %define ipmiconsole_major	    2
