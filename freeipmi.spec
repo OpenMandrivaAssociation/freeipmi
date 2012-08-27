@@ -22,7 +22,6 @@ License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
 Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
-Patch0:		freeipmi-1.0.1-fix-str-fmt.patch
 BuildRequires:	guile-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  readline-devel
@@ -116,7 +115,6 @@ FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 
 %prep
 %setup -q
-%patch0 -p0
 
 %build
 %configure2_5x --localstatedir=/%{_var} --disable-dependency-tracking
