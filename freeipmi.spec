@@ -1,7 +1,5 @@
-%define name freeipmi
-%define version 1.2.1
-%define release %mkrel 1
-%define freeipmi_major	        12
+%define Werror_cflags %nil
+%define freeipmi_major	        13
 %define ipmiconsole_major	    2
 %define ipmidetect_major	    0
 %define ipmimonitoring_major	5
@@ -14,24 +12,22 @@
 %define old_libname    %mklibname freeipmi 5
 %define old_librelease 0.6.5-1
 
-Name: 		%{name}
-Version: 	%{version}
-Release: 	%{release}
+Name: 		freeipmi
+Version: 	1.2.1
+Release: 	1
 Summary: 	FreeIPMI
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
 Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
 BuildRequires:	guile-devel
-BuildRequires:  ncurses-devel
+BuildRequires:  pkgconfig(ncurses)
 BuildRequires:  readline-devel
 BuildRequires:  libgcrypt-devel
 BuildRequires:  transfig
 BuildRequires:  ghostscript
 BuildRequires:  texinfo
 BuildRequires:  tetex-latex
-# uses sys/io.h style I/O
-ExcludeArch:	ppc %mips
 
 %description
 The FreeIPMI project provides "Remote-Console" (out-of-band) and
@@ -88,7 +84,7 @@ Requires:	%{libipmiconsole_name} = %{version}-%{release}
 Requires:	%{libipmidetect_name} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{name}-devel < %{version}-%{release}
-Obsoletes:	%{libfreeipmi_name}-devel
+Obsoletes:	%{libfreeipmi_name}-devel < 1.2.1
 
 %description -n	%{develname}
 This package contains the headers that programmers will need to develop
@@ -130,21 +126,20 @@ find %{buildroot} -type f -name '*.la' -exec rm -f {} \;
 install -d -m 755 %{buildroot}/%{_initrddir}
 mv %{buildroot}/%{_sysconfdir}/init.d/bmc-watchdog %{buildroot}/%{_initrddir}/bmcwatchdog
 mv %{buildroot}/%{_sysconfdir}/init.d/ipmidetectd %{buildroot}/%{_initrddir}
+mv %{buildroot}/%{_sysconfdir}/init.d/ipmiseld %{buildroot}/%{_initrddir}
 rm -rf %{buildroot}%{_docdir}/%{name}
+
+%post fish
+%_post_service ipmiseld
+
+%preun fish
+%_preun_service ipmiseld
 
 %post utils
 %_post_service bmcwatchdog
 
 %preun utils
 %_preun_service bmcwatchdog
-
-%preun
-%_remove_install_info %{name}.info
-%_remove_install_info %{name}-faq.info
-
-%post
-%_install_info %{name}.info
-%_install_info %{name}-faq.info
 
 %files
 %doc AUTHORS COPYING ChangeLog* INSTALL NEWS README TODO
@@ -179,15 +174,19 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %{_libdir}/pkgconfig/libipmimonitoring.pc
 
 %files fish
+%{_initrddir}/ipmiseld
 %{_sbindir}/bmc-config
 %{_sbindir}/bmc-info
 %{_sbindir}/ipmi-sel
+%{_sbindir}/ipmiseld
 %{_sbindir}/ipmi-sensors
 %{_sbindir}/ipmi-sensors-config
 %{_mandir}/man5/bmc-config.conf.5*
+%{_mandir}/man5/ipmiseld.conf.5*
 %{_mandir}/man8/bmc-config.8*
 %{_mandir}/man8/bmc-info.8*
 %{_mandir}/man8/ipmi-sel.8*
+%{_mandir}/man8/ipmiseld.8*
 %{_mandir}/man8/ipmi-sensors.8*
 %{_mandir}/man8/ipmi-sensors-config.8*
 
@@ -196,7 +195,6 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %doc COPYING.ipmiconsole DISCLAIMER.ipmiconsole 
 %doc COPYING.ipmiping DISCLAIMER.ipmiping
 %doc COPYING.ipmipower DISCLAIMER.ipmipower
-%{_sysconfdir}/logrotate.d/bmc-watchdog
 %{_initrddir}/bmcwatchdog
 %{_initrddir}/ipmidetectd
 %config(noreplace) %{_sysconfdir}/sysconfig/bmc-watchdog
