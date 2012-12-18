@@ -7,27 +7,29 @@
 %define libipmiconsole_name	    %mklibname ipmiconsole %{ipmiconsole_major}
 %define libipmidetect_name	    %mklibname ipmidetect %{ipmidetect_major}
 %define libipmimonitoring_name	%mklibname ipmimonitoring %{ipmimonitoring_major}
-%define develname %mklibname -d %{name}
+%define devname %mklibname -d %{name}
 
 %define old_libname    %mklibname freeipmi 5
 %define old_librelease 0.6.5-1
 
-Name: 		freeipmi
-Version: 	1.2.1
-Release: 	1
 Summary: 	FreeIPMI
+Name: 		freeipmi
+Version: 	1.2.3
+Release: 	1
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		http://www.gnu.org/software/freeipmi/index.html
 Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
-BuildRequires:	guile-devel
-BuildRequires:  pkgconfig(ncurses)
-BuildRequires:  readline-devel
-BuildRequires:  libgcrypt-devel
-BuildRequires:  transfig
+Source1: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz.sig
+
 BuildRequires:  ghostscript
 BuildRequires:  texinfo
 BuildRequires:  tetex-latex
+BuildRequires:  transfig
+BuildRequires:  readline-devel
+BuildRequires:	pkgconfig(guile-2.0)
+BuildRequires:  pkgconfig(libgcrypt)
+BuildRequires:  pkgconfig(ncurses)
 
 %description
 The FreeIPMI project provides "Remote-Console" (out-of-band) and
@@ -74,7 +76,7 @@ Obsoletes:	%{old_libname} < %{old_librelease}
 This package contains one of the libraries needed to run programs dynamically
 linked with %{name}.
 
-%package -n	%{develname}
+%package -n	%{devname}
 Group:		Development/C
 License:	GPL
 Summary:	Headers for developing programs that will use %{name}
@@ -86,7 +88,7 @@ Provides:	%{name}-devel = %{version}-%{release}
 Obsoletes:	%{name}-devel < %{version}-%{release}
 Obsoletes:	%{libfreeipmi_name}-devel < 1.2.1
 
-%description -n	%{develname}
+%description -n	%{devname}
 This package contains the headers that programmers will need to develop
 applications which will use %{name}.
 
@@ -113,7 +115,11 @@ FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 %setup -q
 
 %build
-%configure2_5x --localstatedir=/%{_var} --disable-dependency-tracking
+%configure2_5x \
+	--disable-static \
+	--localstatedir=/%{_var} \
+	--disable-dependency-tracking
+
 %make 
 cd doc
 make pdf
@@ -164,9 +170,8 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %files -n %{libipmimonitoring_name}
 %{_libdir}/libipmimonitoring.so.%{ipmimonitoring_major}*
 
-%files -n %{develname}
+%files -n %{devname}
 %{_libdir}/*.so
-%{_libdir}/*.a
 %{_includedir}/*
 %{_libdir}/pkgconfig/libfreeipmi.pc
 %{_libdir}/pkgconfig/libipmiconsole.pc
@@ -260,3 +265,4 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %{_mandir}/man8/pef-config.8.*
 %{_mandir}/man8/rmcp-ping.8.*
 %{_mandir}/man8/rmcpping.8.*
+
