@@ -14,7 +14,7 @@
 
 Summary: 	FreeIPMI
 Name: 		freeipmi
-Version: 	1.2.3
+Version: 	1.2.4
 Release: 	1
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
