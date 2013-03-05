@@ -1,5 +1,7 @@
 removed_sources:
   freeipmi-1.2.1.tar.gz: 3c8e02851c17be35ac69558b570d4842910ff6f2
-sources:
   freeipmi-1.2.4.tar.gz: 4a74fb87067552d6152bd5cf687b3639a254fb12
+sources:
   freeipmi-1.2.4.tar.gz.sig: ae1ee970cad9979b53237d1ac973f308a76cd774
+  freeipmi-1.2.5.tar.gz: 0535eac7a4671405c0f0abcaad46503a4fa6290c
+  freeipmi-1.2.5.tar.gz.sig: 55c0766b3903e7635704fcd5111a0df753ddff22
