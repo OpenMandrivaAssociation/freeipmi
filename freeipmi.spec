@@ -1,24 +1,21 @@
 %define Werror_cflags %nil
-%define freeipmi_major	        13
-%define ipmiconsole_major	    2
-%define ipmidetect_major	    0
+%define freeipmi_major		13
+%define ipmiconsole_major	2
+%define ipmidetect_major	0
 %define ipmimonitoring_major	5
-%define libfreeipmi_name	    %mklibname freeipmi %{freeipmi_major}
-%define libipmiconsole_name	    %mklibname ipmiconsole %{ipmiconsole_major}
-%define libipmidetect_name	    %mklibname ipmidetect %{ipmidetect_major}
-%define libipmimonitoring_name	%mklibname ipmimonitoring %{ipmimonitoring_major}
+%define libfreeipmi		%mklibname freeipmi %{freeipmi_major}
+%define libipmiconsole		%mklibname ipmiconsole %{ipmiconsole_major}
+%define libipmidetect		%mklibname ipmidetect %{ipmidetect_major}
+%define libipmimonitoring	%mklibname ipmimonitoring %{ipmimonitoring_major}
 %define devname %mklibname -d %{name}
-
-%define old_libname    %mklibname freeipmi 5
-%define old_librelease 0.6.5-1
 
 Summary: 	FreeIPMI
 Name: 		freeipmi
 Version: 	1.2.5
 Release: 	1
-License: 	GPLv2+
+License: 	GPLv2
 Group: 		System/Kernel and hardware
-URL:		http://www.gnu.org/software/freeipmi/index.html
+Url:		http://www.gnu.org/software/freeipmi/index.html
 Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
 Source1: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz.sig
 
@@ -36,57 +33,46 @@ The FreeIPMI project provides "Remote-Console" (out-of-band) and
 "System Management Software" (in-band) based on Intelligent
 Platform Management Interface (IPMI v1.5) specification.
 
-%package -n	%{libfreeipmi_name}
-Group:		System/Libraries
-License:	GPL
+%package -n	%{libfreeipmi}
 Summary:	Main library for %{name}
-Obsoletes:	%{old_libname} < %{old_librelease}
+Group:		System/Libraries
 
-%description -n	%{libfreeipmi_name}
+%description -n	%{libfreeipmi}
 This package contains one of the libraries needed to run programs dynamically
 linked with %{name}.
 
-%package -n	%{libipmiconsole_name}
-Group:		System/Libraries
-License:	GPL
+%package -n	%{libipmiconsole}
 Summary:	Main library for %{name}
-Obsoletes:	%{old_libname} < %{old_librelease}
+Group:		System/Libraries
 
-%description -n	%{libipmiconsole_name}
+%description -n	%{libipmiconsole}
 This package contains one of the libraries needed to run programs dynamically
 linked with %{name}.
 
-%package -n	%{libipmidetect_name}
-Group:		System/Libraries
-License:	GPL
+%package -n	%{libipmidetect}
 Summary:	Main library for %{name}
-Obsoletes:	%{old_libname} < %{old_librelease}
+Group:		System/Libraries
 
-%description -n	%{libipmidetect_name}
+%description -n	%{libipmidetect}
 This package contains one of the libraries needed to run programs dynamically
 linked with %{name}.
 
-%package -n	%{libipmimonitoring_name}
-Group:		System/Libraries
-License:	GPL
+%package -n	%{libipmimonitoring}
 Summary:	Main library for %{name}
-Obsoletes:	%{old_libname} < %{old_librelease}
+Group:		System/Libraries
 
-%description -n	%{libipmimonitoring_name}
+%description -n	%{libipmimonitoring}
 This package contains one of the libraries needed to run programs dynamically
 linked with %{name}.
 
 %package -n	%{devname}
-Group:		Development/C
-License:	GPL
 Summary:	Headers for developing programs that will use %{name}
-Requires:	%{libfreeipmi_name} = %{version}-%{release}
-Requires:	%{libipmimonitoring_name} = %{version}-%{release}
-Requires:	%{libipmiconsole_name} = %{version}-%{release}
-Requires:	%{libipmidetect_name} = %{version}-%{release}
+Group:		Development/C
+Requires:	%{libfreeipmi} = %{version}-%{release}
+Requires:	%{libipmimonitoring} = %{version}-%{release}
+Requires:	%{libipmiconsole} = %{version}-%{release}
+Requires:	%{libipmidetect} = %{version}-%{release}
 Provides:	%{name}-devel = %{version}-%{release}
-Obsoletes:	%{name}-devel < %{version}-%{release}
-Obsoletes:	%{libfreeipmi_name}-devel < 1.2.1
 
 %description -n	%{devname}
 This package contains the headers that programmers will need to develop
@@ -127,7 +113,6 @@ cd -
 
 %install
 %makeinstall_std 
-find %{buildroot} -type f -name '*.la' -exec rm -f {} \;
 
 install -d -m 755 %{buildroot}/%{_initrddir}
 mv %{buildroot}/%{_sysconfdir}/init.d/bmc-watchdog %{buildroot}/%{_initrddir}/bmcwatchdog
@@ -158,16 +143,16 @@ rm -rf %{buildroot}%{_docdir}/%{name}
 %dir %{_localstatedir}/lib/%{name}
 %dir %{_localstatedir}/lib/%{name}/ipckey
 
-%files -n %{libfreeipmi_name}
+%files -n %{libfreeipmi}
 %{_libdir}/libfreeipmi.so.%{freeipmi_major}*
 
-%files -n %{libipmiconsole_name}
+%files -n %{libipmiconsole}
 %{_libdir}/libipmiconsole.so.%{ipmiconsole_major}*
 
-%files -n %{libipmidetect_name}
+%files -n %{libipmidetect}
 %{_libdir}/libipmidetect.so.%{ipmidetect_major}*
 
-%files -n %{libipmimonitoring_name}
+%files -n %{libipmimonitoring}
 %{_libdir}/libipmimonitoring.so.%{ipmimonitoring_major}*
 
 %files -n %{devname}
