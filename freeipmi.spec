@@ -1,5 +1,5 @@
 %define Werror_cflags %nil
-%define freeipmi_major		13
+%define freeipmi_major		15
 %define ipmiconsole_major	2
 %define ipmidetect_major	0
 %define ipmimonitoring_major	5
