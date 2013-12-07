@@ -12,7 +12,7 @@
 Summary: 	FreeIPMI
 Name: 		freeipmi
 Version: 	1.3.2
-Release: 	3
+Release: 	4
 License: 	GPLv2
 Group: 		System/Kernel and hardware
 Url:		http://www.gnu.org/software/freeipmi/index.html
