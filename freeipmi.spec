@@ -1,4 +1,4 @@
-%define freeipmi_major	        16
+%define freeipmi_major	        17
 %define ipmiconsole_major	2
 %define ipmidetect_major	0
 %define ipmimonitoring_major	5
@@ -9,8 +9,8 @@
 %define develname		%mklibname -d %{name}
 
 Name: 		freeipmi
-Version: 	1.4.7
-Release: 	3
+Version:	1.6.3
+Release: 	1
 Summary: 	FreeIPMI
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
