@@ -1,7 +1,7 @@
 %define freeipmi_major	        17
 %define ipmiconsole_major	2
 %define ipmidetect_major	0
-%define ipmimonitoring_major	5
+%define ipmimonitoring_major	6
 %define libfreeipmi	%mklibname freeipmi %{freeipmi_major}
 %define libipmiconsole	%mklibname ipmiconsole %{ipmiconsole_major}
 %define libipmidetect	%mklibname ipmidetect %{ipmidetect_major}
@@ -9,7 +9,7 @@
 %define develname		%mklibname -d %{name}
 
 Name: 		freeipmi
-Version:	1.6.3
+Version:	1.6.7
 Release: 	1
 Summary: 	FreeIPMI
 License: 	GPLv2+
@@ -107,18 +107,14 @@ FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 %build
 %define Werror_cflags %{nil}
 %serverbuild
-export CC=gcc
-%configure2_5x --localstatedir=/%{_var} --disable-dependency-tracking --disable-static
-%make
-cd doc
-make pdf
-cd -
+#export CC=gcc
+%configure --localstatedir=/%{_var} --disable-dependency-tracking --disable-static
+%make_build
 
 %install
-%makeinstall_std 
+%make_install
 
 rm -rf %{buildroot}%{_docdir}/%{name}
-rm -f %{buildroot}%{_libdir}/*.la
 rm -f %{buildroot}%{_initrddir}/*  %{buildroot}%{_sysconfdir}/init.d/*
 
 # Install systemd units
@@ -136,7 +132,6 @@ ln -s bmc-watchdog.service %{buildroot}%{_unitdir}/bmcwatchdog.service
 
 %files
 %doc AUTHORS COPYING ChangeLog* INSTALL NEWS README TODO
-%doc doc/*.pdf
 %{_sysconfdir}/freeipmi/*.conf
 %{_mandir}/man5/freeipmi_interpret_sel.conf.5.*
 %{_mandir}/man5/freeipmi_interpret_sensor.conf.5.*
@@ -183,6 +178,7 @@ ln -s bmc-watchdog.service %{buildroot}%{_unitdir}/bmcwatchdog.service
 %doc COPYING.ipmiconsole DISCLAIMER.ipmiconsole 
 %doc COPYING.ipmiping DISCLAIMER.ipmiping
 %doc COPYING.ipmipower DISCLAIMER.ipmipower
+/lib/systemd/system/ipmiseld.service
 %{_unitdir}/bmc-watchdog.service
 %{_unitdir}/bmcwatchdog.service
 %{_unitdir}/ipmidetectd.service
