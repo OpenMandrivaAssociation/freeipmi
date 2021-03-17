@@ -19,6 +19,7 @@ Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
 Source1: 	ipmidetectd.service
 Source2: 	bmc-watchdog.service
 BuildRequires:  guile-devel
+BuildRequires:	pkgconfig(systemd)
 BuildRequires:  pkgconfig(libgcrypt)
 BuildRequires:  pkgconfig(ncurses)
 BuildRequires:  transfig
