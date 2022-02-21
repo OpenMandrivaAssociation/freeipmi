@@ -9,8 +9,8 @@
 %define develname		%mklibname -d %{name}
 
 Name: 		freeipmi
-Version:	1.6.7
-Release: 	1
+Version:	1.6.9
+Release:	1
 Summary: 	FreeIPMI
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
