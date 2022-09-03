@@ -9,8 +9,8 @@
 %define develname		%mklibname -d %{name}
 
 Name: 		freeipmi
-Version:	1.6.9
-Release:	2
+Version:	1.6.10
+Release:	1
 Summary: 	FreeIPMI
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
@@ -18,6 +18,7 @@ URL:		http://www.gnu.org/software/freeipmi/index.html
 Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
 Source1: 	ipmidetectd.service
 Source2: 	bmc-watchdog.service
+Patch0:		freeipmi-1.6.10-clang-15.patch
 BuildRequires:  guile-devel
 BuildRequires:	pkgconfig(systemd)
 BuildRequires:  pkgconfig(libgcrypt)
@@ -103,7 +104,7 @@ Requires(preun): rpm-helper >= 0.24.8-1
 FreeIPMI utilities ipmipower, bmc-watchdog, ipmiping, and rmcpping.
 
 %prep
-%setup -q
+%autosetup -p1
 
 %build
 %define Werror_cflags %{nil}
@@ -179,7 +180,7 @@ ln -s bmc-watchdog.service %{buildroot}%{_unitdir}/bmcwatchdog.service
 %doc COPYING.ipmiconsole DISCLAIMER.ipmiconsole 
 %doc COPYING.ipmiping DISCLAIMER.ipmiping
 %doc COPYING.ipmipower DISCLAIMER.ipmipower
-/lib/systemd/system/ipmiseld.service
+%{_unitdir}/ipmiseld.service
 %{_unitdir}/bmc-watchdog.service
 %{_unitdir}/bmcwatchdog.service
 %{_unitdir}/ipmidetectd.service

@@ -1,0 +1,32 @@
+diff -up freeipmi-1.6.10/ipmi-sensors/ipmi-sensors-oem-intel.c.omv~ freeipmi-1.6.10/ipmi-sensors/ipmi-sensors-oem-intel.c
+--- freeipmi-1.6.10/ipmi-sensors/ipmi-sensors-oem-intel.c.omv~	2022-09-03 02:42:46.698662222 +0200
++++ freeipmi-1.6.10/ipmi-sensors/ipmi-sensors-oem-intel.c	2022-09-03 02:42:57.375567406 +0200
+@@ -34,6 +34,7 @@
+ #include "ipmi-sensors-oem-intel.h"
+ #include "ipmi-sensors-oem-intel-s5500wb.h"
+ #include "ipmi-sensors-oem-intel-s2600jf.h"
++#include "ipmi-sensors-oem-intel-s2600wp.h"
+ #include "ipmi-sensors-oem-intel-quanta-qssc-s4r.h"
+ #include "ipmi-sensors-oem-intel-node-manager.h"
+ 
+diff -up freeipmi-1.6.10/libfreeipmi/sel/ipmi-sel-string-supermicro-x10dimm-common.c.omv~ freeipmi-1.6.10/libfreeipmi/sel/ipmi-sel-string-supermicro-x10dimm-common.c
+--- freeipmi-1.6.10/libfreeipmi/sel/ipmi-sel-string-supermicro-x10dimm-common.c.omv~	2022-09-03 02:36:01.258221518 +0200
++++ freeipmi-1.6.10/libfreeipmi/sel/ipmi-sel-string-supermicro-x10dimm-common.c	2022-09-03 02:36:31.485959707 +0200
+@@ -43,6 +43,17 @@
+ 
+ #include "freeipmi-portability.h"
+ 
++extern int
++sel_string_output_supermicro_dimm_event_data2_event_data3 (ipmi_sel_ctx_t ctx,
++                                                           struct ipmi_sel_entry *sel_entry,
++                                                           uint8_t sel_record_type,
++                                                           char *buf,
++                                                           unsigned int buflen,
++                                                           unsigned int flags,
++                                                           unsigned int *wlen,
++                                                           struct ipmi_sel_system_event_record_data *system_event_record_data,
++                                                           int *oem_rv);
++
+ /* return (0) - no OEM match
+  * return (1) - OEM match
+  * return (-1) - error, cleanup and return error
