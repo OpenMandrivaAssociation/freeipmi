@@ -19,6 +19,11 @@ Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
 Source1: 	ipmidetectd.service
 Source2: 	bmc-watchdog.service
 Patch0:		freeipmi-1.6.10-clang-15.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:  guile-devel
 BuildRequires:	pkgconfig(systemd)
 BuildRequires:  pkgconfig(libgcrypt)
