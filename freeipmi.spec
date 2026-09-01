@@ -9,19 +9,18 @@
 %define develname		%mklibname -d %{name}
 
 Name: 		freeipmi
-Version:	1.6.18
+Version:	1.6.19
 Release:	1
 Summary: 	FreeIPMI
 License: 	GPLv2+
 Group: 		System/Kernel and hardware
 URL:		https://www.gnu.org/software/freeipmi/index.html
-Source0: 	http://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
+Source0: 	https://ftp.gnu.org/gnu/freeipmi/%{name}-%{version}.tar.gz
 Source1: 	ipmidetectd.service
 Source2: 	bmc-watchdog.service
 # dropped (no longer applies): Patch0:		freeipmi-1.6.10-clang-15.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
 BuildRequires:	slibtool
 BuildRequires:	make
 BuildRequires:  guile-devel
