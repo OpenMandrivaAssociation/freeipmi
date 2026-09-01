@@ -27,10 +27,7 @@ BuildRequires:  guile-devel
 BuildRequires:	pkgconfig(systemd)
 BuildRequires:  pkgconfig(libgcrypt)
 BuildRequires:  pkgconfig(ncurses)
-BuildRequires:  transfig
-BuildRequires:  ghostscript
 BuildRequires:  texinfo
-BuildRequires:  texlive-scheme-small
 
 %description
 The FreeIPMI project provides "Remote-Console" (out-of-band) and
